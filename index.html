@@ -1,0 +1,84 @@
+<!doctype>
+<html>
+  <head>
+    <title>Logspout Viewer</title>
+    <style>
+    body {
+      font: 12px/1.5 sans-serif;
+    }
+    h1 {
+      margin: 0;
+      border-bottom: 1px solid;
+      font-weight: normal;
+      font-size: 150%;
+    }
+    .logs {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .logs li {
+      line-height: 3;
+      padding: 0 1em;
+      border-bottom: 1px #eee solid;
+    }
+    .logs li:hover {
+      background: #f9f9f9
+    }
+    .label {
+      background: white;
+      text-align: center;
+      border-radius: 3px;
+      color: #999;
+      display: inline-block;
+      border: 1px solid;
+      line-height: 1.5;
+      padding: 0 0.5em;
+      margin-right: 0.5em;
+      vertical-align: middle;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .type {
+      width: 5em;
+    }
+    .name {
+      width: 10em;
+    }
+    </style>
+  </head>
+  <body>
+    <h1>Logspout Viewer</h1>
+    <ul class="logs">
+    </ul>
+    <script>
+      var ws = new WebSocket(location.origin + '/logs'):
+      var logs = document.querySelector('.logs');
+      ws.onmessage = function(msg) {
+        var data = JSON.parse(msg.data);
+
+        var type = document.createElement('span');
+        type.classList.add('type');
+        type.classList.add('label');
+        type.innerText = data.type;
+
+        var name = document.createElement('span');
+        name.classList.add('name');
+        name.classList.add('label');
+        name.innerText = data.name;
+        name.title = data.name;
+
+        var text = document.createElement('span');
+        text.innerText = data.data;
+
+        var log = document.createElement('li');
+        log.classList.add(data.type);
+        log.appendChild(type);
+        log.appendChild(name);
+        log.appendChild(text);
+
+        logs.insertBefore(log, logs.firstChild);
+      };
+    </script>
+  </body>
+</html>
