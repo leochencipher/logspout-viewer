@@ -52,7 +52,7 @@
     <ul class="logs">
     </ul>
     <script>
-      var ws = new WebSocket(location.origin + '/logs');
+      var ws = new WebSocket('ws://' + location.host + '/logs');
       var logs = document.querySelector('.logs');
       ws.onmessage = function(msg) {
         var data = JSON.parse(msg.data);
